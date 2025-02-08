@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consulta CEP</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Consulta CEP</h1>
-    <label for="cep">Digite o CEP:</label>
-    <input type="text" id="cep" maxlength="8">
-    <button onclick="buscarEndereco()">Buscar Endereço</button>
+    <div class="container">
+        <h1>Consulta CEP</h1>
+        <label for="cep">Digite o CEP:</label>
+        <input type="text" id="cep" maxlength="8">
+        <button onclick="buscarEndereco()">Buscar Endereço</button>
 
-    <div id="resultado"></div>
+        <div id="resultado"></div>
+    </div>
+</body>
+
 
     <script>
         function buscarEndereco() {
+            document.getElementById("resultado").style.display = "block";
+
             // Obtém o valor do CEP digitado
             const cep = document.getElementById("cep").value;
 
@@ -54,5 +61,4 @@
                 });
         }
     </script>
-</body>
 </html>
