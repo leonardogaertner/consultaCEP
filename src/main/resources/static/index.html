@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta CEP</title>
+</head>
+<body>
+    <h1>Consulta CEP</h1>
+    <label for="cep">Digite o CEP:</label>
+    <input type="text" id="cep" maxlength="8">
+    <button onclick="buscarEndereco()">Buscar Endereço</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        function buscarEndereco() {
+            // Obtém o valor do CEP digitado
+            const cep = document.getElementById("cep").value;
+
+            // Verifica se o CEP tem 8 dígitos
+            if (cep.length !== 8) {
+                alert("Por favor, insira um CEP válido.");
+                return;
+            }
+
+            // Faz a requisição para a API
+            fetch(`http://localhost:8080/api/endereco?cep=${cep}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Exibe o retorno da API no console para debug
+                    console.log(data);
+
+                    // Verifica se a API retornou dados
+                    if (data && data.cep) {
+                        // Exibe os dados na página
+                        document.getElementById("resultado").innerHTML = `
+                            <p><strong>CEP:</strong> ${data.cep}</p>
+                            <p><strong>Logradouro:</strong> ${data.logradouro}</p>
+                            <p><strong>Bairro:</strong> ${data.bairro}</p>
+                            <p><strong>Localidade:</strong> ${data.localidade}</p>
+                            <p><strong>UF:</strong> ${data.uf}</p>
+                            <p><strong>Estado:</strong> ${data.estado}</p>
+                        `;
+                    } else {
+                        // Se não encontrar o endereço, exibe uma mensagem
+                        document.getElementById("resultado").innerHTML = `<p>Endereço não encontrado para o CEP fornecido.</p>`;
+                    }
+                })
+                .catch(error => {
+                    // Caso ocorra algum erro na requisição, exibe no console
+                    console.error("Erro ao buscar o endereço:", error);
+                    document.getElementById("resultado").innerHTML = `<p>Erro ao buscar o endereço.</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
